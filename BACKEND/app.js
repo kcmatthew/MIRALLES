@@ -1,17 +1,20 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const express = require('express')
+const app = express()
+const cors = require('cors')
+app.use(cors())
+app.use(express.json())
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
+const UserRouter = require('./routes/users');
+app.use('/users', UserRouter)
 
-const studentRoutes = require('./routes/students');
-const studentInfoRoutes = require('./routes/studentsinfo');
-const instructorRoutes = require('./routes/instructors');
+const InstructorRouter = require('./routes/instructors');
+app.use('/instructors', InstructorRouter)
 
-app.use('/students', studentRoutes);
-app.use('/studentsinfo', studentInfoRoutes);
-app.use('/instructors', instructorRoutes);
+const StudentRouter = require('./routes/students');
+app.use('/students', StudentRouter)
+
+const StudentInfoRouter = require('./routes/studentsinfo');
+app.use('/studentsinfo', StudentInfoRouter)
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
